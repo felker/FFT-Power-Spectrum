@@ -5,68 +5,117 @@
 #include <cmath>
 #include "app/GUI.h"
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// Constructor
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 fft::app::GUI::GUI(sf::RenderWindow *renderWindow, uint64_t segment_size) : render_window(renderWindow),
                                                                             segment_size(segment_size),
                                                                             power_bins(segment_size),
                                                                             history(250),
-                                                                            time_domain(sf::VertexArray(sf::PrimitiveType::LineStrip, segment_size)){
+                                                                            amplitude(sf::VertexArray(sf::PrimitiveType::LineStrip, segment_size)){
     /*
      * Pre-initialize the power bins so we do not have to that every loop
      */
     for (uint64_t i = 0; i < segment_size - 1; i++) {
-        this->power_bins[i].setFillColor(sf::Color::White);
         // We add + 1 in the log to avoid log(0)
+        //
+        // Log-scale the position of the bin and make it pass to the window's size
         this->power_bins[i].setPosition(std::log10((float)i + 1) / std::log10((float)this->segment_size) * this->render_window->getSize().x,
                                   this->render_window->getSize().y);
 
-        this->power_bins[i + 1].setFillColor(sf::Color::Black);
         // We add + 2 in the log to avoid log(0)
+        //
+        // Log-scale the position of the bin and make it pass to the window's size
         this->power_bins[i + 1].setPosition(std::log10((float)i + 2) / std::log10((float)this->segment_size) * this->render_window->getSize().x,
                                             this->render_window->getSize().y);
 
+        // Set size of the bin from the beginning position of current i to the beginning position of i + 1
         this->power_bins[i].setSize({this->power_bins[i + 1].getPosition().x - this->power_bins[i ].getPosition().x, 0});
+        this->power_bins[i].setFillColor(sf::Color::White);
     }
 
     /*
      * Pre initialize time domain line
      */
-    for(uint64_t i = 0; i < this->time_domain.getVertexCount(); i++) {
-        this->time_domain[i].color = sf::Color{225, 225, 255, 255};
+    for(uint64_t i = 0; i < this->amplitude.getVertexCount(); i++) {
+        this->amplitude[i].color = sf::Color{225, 225, 255, 255};
     }
 
     this->random_end_color();
     this->random_start_color();
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// random_end_color
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 void fft::app::GUI::random_end_color() {
     this->end_color = *select_randomly(this->cold_colors.begin(), this->cold_colors.end());
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// random_start_color
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 void fft::app::GUI::random_start_color() {
     this->start_color = *select_randomly(this->hot_colors.begin(), this->hot_colors.end());
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// close
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 void fft::app::GUI::close() {
     this->render_window->close();
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// is_open
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 bool fft::app::GUI::is_open() {
     return this->render_window->isOpen();
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// poll_event
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 bool fft::app::GUI::poll_event(sf::Event &event) {
     return this->render_window->pollEvent(event);
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// clear
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 void fft::app::GUI::clear() {
     // Drawing white background
     this->render_window->clear(sf::Color::Black);
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// display
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 void fft::app::GUI::display() {
     this->render_window->display();
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// visualize_frequency_domain
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 void fft::app::GUI::visualize_frequency_domain(const float *spectrum, uint64_t size) {
     if (size == 0) {
         return;
@@ -81,6 +130,11 @@ void fft::app::GUI::visualize_frequency_domain(const float *spectrum, uint64_t s
     }
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// visualize_bars
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 void fft::app::GUI::visualize_bars(const float *spectrum) {
     /*
      * We want to do a min-max scaling with the calculated power coefficients
@@ -99,15 +153,15 @@ void fft::app::GUI::visualize_bars(const float *spectrum) {
     std::cout << std::endl;
     for (uint64_t i = 0; i < this->segment_size; i++) {
         // Calculate the hight of the bin
-        float height = (spectrum[i] / max) * (this->render_window->getSize().y / 10.0f);
+        float bins_scaled_height = (spectrum[i] / max) * (this->render_window->getSize().y / 10.0f);
 
-        // Set the y position of the bin according to the height of bin
+        // Set the y position of the bin according to the bins_scaled_height of bin
         // Keep the x coordinate
-        this->power_bins[i].setPosition(this->power_bins[i].getPosition().x, this->render_window->getSize().y - height);
+        this->power_bins[i].setPosition(this->power_bins[i].getPosition().x, this->render_window->getSize().y - bins_scaled_height);
 
-        // Set the height of the bin
+        // Set the bins_scaled_height of the bin
         // Keep the width
-        this->power_bins[i].setSize({this->power_bins[i].getSize().x, height});
+        this->power_bins[i].setSize({this->power_bins[i].getSize().x, bins_scaled_height});
 
         std::cout << power_bins[i].getPosition() << ", ";
     }
@@ -118,6 +172,11 @@ void fft::app::GUI::visualize_bars(const float *spectrum) {
     std::cout << std::endl;
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// visualize_history
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 void fft::app::GUI::visualize_history() {
     this->calculate_color();
 
@@ -145,6 +204,11 @@ void fft::app::GUI::visualize_history() {
 
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// visualize_time_domain
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 void fft::app::GUI::visualize_time_domain(const int16_t *spectrum, uint64_t size) {
     float max = std::fabs(spectrum[0]);
     for (uint64_t i = 0; i < segment_size; i++) {
@@ -153,13 +217,19 @@ void fft::app::GUI::visualize_time_domain(const int16_t *spectrum, uint64_t size
         }
     }
 #pragma omp parallel for
-    for(uint64_t i = 0; i < this->time_domain.getVertexCount() ; i++) {
-        this->time_domain[i].position.x = ((float)i / (float)this->time_domain.getVertexCount()) * this->render_window->getSize().x;
-        this->time_domain[i].position.y = 150 + ((float)spectrum[i] / max) * 50.0;
+    for(uint64_t i = 0; i < this->amplitude.getVertexCount() ; i++) {
+        this->amplitude[i].position.x = ((float)i / (float)this->amplitude.getVertexCount()) * this->render_window->getSize().x;
+        this->amplitude[i].position.y = 150 + ((float)spectrum[i] / max) * 50.0;
     }
-    this->render_window->draw(time_domain);
+    this->render_window->draw(amplitude);
 }
 
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// calculate_color
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 void fft::app::GUI::calculate_color() {
     // Calculate the newest history's color
     double percent = (double)this->color_idx / (double)this->history.getCap();

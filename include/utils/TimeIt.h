@@ -6,10 +6,20 @@
 #include <iostream>
 
 namespace fft::utils {
+    /**
+     * Benchmarking class
+     */
     class TimeIt {
     public:
+        /**
+         * Constructor
+         * @param text name of the benchmark
+         */
         explicit TimeIt(const std::string &text);
 
+        /**
+         * End the benchmark and print the result
+         */
         void end();
 
         static std::string format_number(uint64_t number);

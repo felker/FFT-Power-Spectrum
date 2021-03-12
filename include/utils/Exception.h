@@ -9,11 +9,11 @@ namespace fft::utils {
     private:
         std::string message_;
     public:
-        const char *what() const noexcept {
+        explicit Exception(std::string message) : message_(std::move(message)) {}
+
+        [[nodiscard]] const char *what() const noexcept {
             return message_.c_str();
         }
-
-        Exception(std::string message) : message_(std::move(message)) {}
     };
 }
 
