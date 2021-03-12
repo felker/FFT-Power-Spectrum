@@ -22,7 +22,7 @@
 
 int main() {
     // Creating window
-    sf::RenderWindow window({1600, 1000}, "FFT");
+    sf::RenderWindow window({1900, 1000}, "FFT");
 
     window.setFramerateLimit(60);
 
