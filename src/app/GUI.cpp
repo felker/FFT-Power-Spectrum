@@ -150,7 +150,6 @@ void fft::app::GUI::visualize_bars(const float *spectrum) {
     /*
      * We do log scale on the X-Axis since human ears work on log scale (the same working principle of the unit decibel)
      */
-    std::cout << std::endl;
     for (uint64_t i = 0; i < this->segment_size; i++) {
         // Calculate the hight of the bin
         float bins_scaled_height = (spectrum[i] / max) * (this->render_window->getSize().y / 10.0f);
@@ -163,13 +162,7 @@ void fft::app::GUI::visualize_bars(const float *spectrum) {
         // Keep the width
         this->power_bins[i].setSize({this->power_bins[i].getSize().x, bins_scaled_height});
 
-        std::cout << power_bins[i].getPosition() << ", ";
     }
-    std::cout << std::endl;
-    for (uint64_t i = 0; i < this->segment_size; i++) {
-        std::cout << power_bins[i].getSize() << ", ";
-    }
-    std::cout << std::endl;
 }
 
 ////////////////////////////////////////////////////////////
@@ -181,11 +174,9 @@ void fft::app::GUI::visualize_history() {
     this->calculate_color();
 
     // Creating newest history
-    sf::VertexArray line(sf::PrimitiveType::LineStrip, this->segment_size - 1);
-    for (uint64_t i = 0; i < segment_size - 1; i++) {
-        line[i].position.x = (power_bins[i].getPosition().x + power_bins[i + 1].getPosition().x) / 2;
-        line[i].position.y = this->render_window->getSize().y -
-                             power_bins[i].getSize().y;
+    sf::VertexArray line(sf::PrimitiveType::LineStrip, this->segment_size);
+    for (uint64_t i = 0; i < segment_size; i++) {
+        line[i].position = power_bins[i].getPosition();
         line[i].color = this->current_color;
     }
     this->history.push_back(line);
@@ -194,7 +185,7 @@ void fft::app::GUI::visualize_history() {
     sf::View original_view = this->render_window->getView();
 
     for(uint64_t i = 0; i < this->history.size(); i++) {
-        sf::View history_view;
+        sf::View history_view(original_view);
         history_view.setCenter(original_view.getCenter());
         history_view.move({0, (float)(i * 2.5)});
         this->render_window->setView(history_view);
