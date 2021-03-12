@@ -30,7 +30,7 @@ int main() {
 
     fft::app::GUI gui(&window, segment_size);
 
-    fft::app::Controller controller(&gui, segment_size);
+    fft::app::Controller controller(&gui, segment_size, "../../data/elise.wav");
 
     controller.start();
 }

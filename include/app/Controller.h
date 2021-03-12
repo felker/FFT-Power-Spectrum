@@ -45,7 +45,7 @@ namespace fft::app {
          * @param gui pointer to fft::app::GUI
          * @param segment_size how many samples do we consider in each transformation
          */
-        explicit Controller(GUI *gui, uint64_t segment_size);
+        explicit Controller(GUI *gui, uint64_t segment_size, const std::string& file_name);
 
         /**
          * Programm's main loop

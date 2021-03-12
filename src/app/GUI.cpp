@@ -116,11 +116,7 @@ void fft::app::GUI::display() {
 // visualize_frequency_domain
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
-void fft::app::GUI::visualize_frequency_domain(const float *spectrum, uint64_t size) {
-    if (size == 0) {
-        return;
-    }
-
+void fft::app::GUI::visualize_frequency_domain(const float *spectrum) {
     this->visualize_bars(spectrum);
 
     this->visualize_history();
@@ -186,7 +182,6 @@ void fft::app::GUI::visualize_history() {
 
     for(uint64_t i = 0; i < this->history.size(); i++) {
         sf::View history_view(original_view);
-        history_view.setCenter(original_view.getCenter());
         history_view.move({0, (float)(i * 2.5)});
         this->render_window->setView(history_view);
         this->render_window->draw(this->history[this->history.size() - 1 - i]);
@@ -200,7 +195,7 @@ void fft::app::GUI::visualize_history() {
 // visualize_time_domain
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
-void fft::app::GUI::visualize_time_domain(const int16_t *spectrum, uint64_t size) {
+void fft::app::GUI::visualize_time_domain(const int16_t *spectrum) {
     float max = std::fabs(spectrum[0]);
     for (uint64_t i = 0; i < segment_size; i++) {
         if (std::fabs(spectrum[i]) > max) {

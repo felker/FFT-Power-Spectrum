@@ -132,7 +132,7 @@ namespace fft::app {
          * @param spectrum DFT's outputs
          * @param size how many coefficients
          */
-        void visualize_frequency_domain(const float * spectrum, uint64_t size);
+        void visualize_frequency_domain(const float * spectrum);
 
         /**
          * Plot the amplitude
@@ -140,7 +140,7 @@ namespace fft::app {
          * @param samples current samples
          * @param size how many samples
          */
-        void visualize_time_domain(const int16_t * samples, uint64_t size);
+        void visualize_time_domain(const int16_t * samples);
     };
 }
 

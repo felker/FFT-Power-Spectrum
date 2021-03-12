@@ -10,11 +10,11 @@ namespace fft::app {
     // Constructor
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
-    Controller::Controller(GUI *gui, uint64_t segment_size) : gui(gui), segment_size(segment_size) {
+    Controller::Controller(GUI *gui, uint64_t segment_size, const std::string& file_name) : gui(gui), segment_size(segment_size) {
         // Load sound file into buffer
 
         fft::utils::TimeIt loading_sound("Loading sound from buffer");
-        if (!this->sound_buffer.loadFromFile("../../data/dido.wav")) {
+        if (!this->sound_buffer.loadFromFile(file_name)) {
             std::cerr << "Can not load file elise.wav. Please place the file in the correct path." << std::endl;
             std::exit(1);
         }
@@ -54,8 +54,6 @@ namespace fft::app {
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     void Controller::start() {
-        // Start to play sound
-        this->sound.play();
 
         while (this->gui->is_open()) {
             while (this->gui->poll_event(event)) {
@@ -63,6 +61,8 @@ namespace fft::app {
                     case sf::Event::Closed:
                         this->gui->close();
                         break;
+                    case sf::Event::MouseButtonPressed:
+                        this->sound.play();
                     default:
                         break;
                 }
@@ -121,8 +121,8 @@ namespace fft::app {
 
             fft::utils::TimeIt visualization("Visualization");
             // Time to visualize_frequency_domain the spectrum
-            this->gui->visualize_frequency_domain(power_spectrum.get(), this->segment_size);
-            this->gui->visualize_time_domain(played_segment_real.get(), this->segment_size);
+            this->gui->visualize_frequency_domain(power_spectrum.get());
+            this->gui->visualize_time_domain(played_segment_real.get());
             visualization.end();
 
             // Refresh mainPanel
