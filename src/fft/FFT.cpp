@@ -23,7 +23,7 @@ namespace fft {
             }
 
             // Return buffer
-            std::unique_ptr<int16_t[]> ret = std::make_unique<int16_t[]>(channel_size);
+            std::unique_ptr<int16_t[]> ret(new int16_t[channel_size]);
             if (ret == nullptr) {
                 THROW_EXCEPTION("Can not allocate enough memory for application to run. Please try again!")
             }
@@ -104,7 +104,7 @@ namespace fft {
         ////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////
         std::unique_ptr<Complex[]> hanning(uint32_t size) {
-            std::unique_ptr<Complex[]> ret = std::make_unique<Complex[]>(size);
+            std::unique_ptr<Complex[]> ret(new Complex[size]);
 
 #pragma omp parallel for
             for (uint32_t i = 0; i < size; i++) {
@@ -120,7 +120,7 @@ namespace fft {
         ////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////
         std::unique_ptr<float[]> power_spectrum(Complex *array, uint64_t size) {
-            std::unique_ptr<float[]> ret = std::make_unique<float[]>(size);
+            std::unique_ptr<float[]> ret(new float[size]);
 
             for (uint64_t i = 0; i < size; i++) {
                 ret[i] = std::sqrt(std::pow(array[i].real(), 2) + std::pow(array[i].imag(), 2));

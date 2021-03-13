@@ -8,7 +8,6 @@ set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_SOURCE_DIR}/cmake_modules/")
 find_package(SFML 2.5 REQUIRED audio graphics window system)
 
 set(LIBRARY sfml-audio sfml-graphics sfml-window sfml-system)
-
 add_subdirectory(src)
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 add_subdirectory(bin)

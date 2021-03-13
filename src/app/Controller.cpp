@@ -39,7 +39,7 @@ namespace fft {
 
             // Transform sample data into complex number
             fft::utils::TimeIt making_complex("Making data complex");
-            this->mean_data = std::make_unique<fft::core::Complex[]>(this->channel_size);
+            this->mean_data = std::unique_ptr<fft::core::Complex[]>(new fft::core::Complex[this->channel_size]);
 
 #pragma omp parallel for
             for (uint64_t i = 0; i < this->channel_size; i++) {
@@ -94,8 +94,8 @@ namespace fft {
                 // Since FFT only works for sample size of power 2^N, we need to do some padding
                 // if the current data is not ideal
                 fft::utils::TimeIt copying_segment("Copying playing segment");
-                auto played_segment = std::make_unique<fft::core::Complex[]>(this->segment_size);
-                auto played_segment_real = std::make_unique<int16_t[]>(this->segment_size);
+                auto played_segment = std::unique_ptr<fft::core::Complex[]>(new fft::core::Complex[this->segment_size]);
+                auto played_segment_real = std::unique_ptr<int16_t[]>(new int16_t[this->segment_size]);
                 for (uint64_t i = 0; i < this->segment_size; i++) {
                     played_segment[i] = this->mean_data[start + i];
                     played_segment_real[i] = this->mean_data[start + i].real();

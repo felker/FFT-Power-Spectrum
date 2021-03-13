@@ -19,7 +19,7 @@ can be explained as following:
 This program is on the other hand just a nice artistic demonstration of the algorithm, notice how much better we can see which piano key
 is being pressed, which is almost impossible to achieve with time-amplitude.
 
-### Build and run it yourself on Linux (For C++ people)
+### Build and run it yourself (C++11 / SFML 2.5)
 
 Install the dependencies
 

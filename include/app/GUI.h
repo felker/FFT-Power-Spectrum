@@ -9,6 +9,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
+#include <memory>
 #include "utils/Exception.h"
 #include "utils/SizedVector.h"
 #include "utils/Utils.h"

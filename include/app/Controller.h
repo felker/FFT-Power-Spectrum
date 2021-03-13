@@ -9,6 +9,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
+#include <memory>
 #include "core/FFT.h"
 #include "utils/TimeIt.h"
 #include "GUI.h"
