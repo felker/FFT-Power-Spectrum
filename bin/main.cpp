@@ -2,7 +2,7 @@
 //
 // A sound buffer holds the data of a sound, which is an array of audio samples.
 //
-// A sample is a 16 bits signed integer that defines the amplitude of the sound at a given time. The sound is then reconstituted by playing these samples at a high rate (for example, 44100 samples per second is the standard rate used for playing CDs).
+// A sample is a 16 bits signed integer that defines the amplitude_lines of the sound at a given time. The sound is then reconstituted by playing these samples at a high rate (for example, 44100 samples per second is the standard rate used for playing CDs).
 // In short, audio samples are like texture pixels, and a sf::SoundBuffer is similar to a sf::Texture.
 //
 // A sound buffer can be loaded from a file (see loadFromFile() for the complete list of supported formats), from memory,

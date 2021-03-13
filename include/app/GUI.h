@@ -19,22 +19,37 @@ namespace fft {
         class GUI {
         private:
             sf::RenderWindow *render_window;
-            uint64_t segment_size;
+            /*
+             * This indicates how many raw amplitudes we want to visualize
+             * We want of course to visualize them all
+             */
+            uint64_t amplitude_size;
+
+            /*
+             * Since the output of FFT is mirrored, we only want the first half
+             *
+             * The second half is basically the same. After log scaled the X-Axis,
+             * using the whole output result into funny high frequencies at the right side
+             * of the visualization. This bug was found by a Reddit user.
+             *
+             * This variable is simply half of amplitude_size
+             */
+            uint64_t frequency_size;
 
             /*
              * Represents the bins of each frequency
              */
-            std::vector<sf::RectangleShape> power_bins;
+            std::vector<sf::RectangleShape> frequency_bins;
 
             /*
-             * Represents the cascading history
+             * Represents the cascading history_amplitude_lines
              */
-            fft::utils::SizedVector<sf::VertexArray> history;
+            fft::utils::SizedVector<sf::VertexArray> history_amplitude_lines;
 
             /*
-             * Represents the current window's time amplitude
+             * Represents the current window's time amplitude_lines
              */
-            sf::VertexArray amplitude;
+            sf::VertexArray amplitude_lines;
 
             /*
              * Colors for gradients effect
@@ -82,12 +97,12 @@ namespace fft {
              * Plot the power spectrum of the current samples
              * @param spectrum DFT's power spectrum
              */
-            void visualize_bars(const float *spectrum);
+            void visualize_current_frequencies(const float *spectrum);
 
             /**
-             * Plot the history
+             * Plot the history_amplitude_lines
              */
-            void visualize_history();
+            void visualize_history_frequencies();
 
         public:
             /**
@@ -135,15 +150,15 @@ namespace fft {
              * @param spectrum DFT's outputs
              * @param size how many coefficients
              */
-            void visualize_frequency_domain(const float *spectrum);
+            void visualize_frequency(const float *spectrum);
 
             /**
-             * Plot the amplitude
+             * Plot the amplitude_lines
              *
-             * @param samples current samples
+             * @param amplitude_data current samples
              * @param size how many samples
              */
-            void visualize_time_domain(const int16_t *samples);
+            void visualize_amplitude(const int16_t *amplitude_data);
         };
     }
 }

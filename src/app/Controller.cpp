@@ -72,7 +72,7 @@ namespace fft {
 
                 /*
                  * We want to pick the played segment in the last time delta
-                 * and visualize_frequency_domain it.
+                 * and visualize_frequency it.
                  *
                  * This process is a random variable, since we don't know how many ms each segment may take.
                  * So we have to do all the calculation live
@@ -121,9 +121,9 @@ namespace fft {
                 fft.end();
 
                 fft::utils::TimeIt visualization("Visualization");
-                // Time to visualize_frequency_domain the spectrum
-                this->gui->visualize_frequency_domain(power_spectrum.get());
-                this->gui->visualize_time_domain(played_segment_real.get());
+                // Time to visualize_frequency the spectrum
+                this->gui->visualize_frequency(power_spectrum.get());
+                this->gui->visualize_amplitude(played_segment_real.get());
                 visualization.end();
 
                 // Refresh mainPanel

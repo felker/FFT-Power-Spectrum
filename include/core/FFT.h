@@ -45,7 +45,7 @@ namespace fft::core {
      * Author: https://rosettacode.org/wiki/Fast_Fourier_transform#C.2B.2B
      * Transform time spectrum into frequency spectrum
      *
-     * @param x amplitude signal
+     * @param x amplitude_lines signal
      */
     void fft(Complex * x, uint32_t size);
 
