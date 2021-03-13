@@ -4,6 +4,8 @@
 
 #include "core/FFT.h"
 
+#define PI 3.14159265358979323846264338328L
+
 namespace fft::core {
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -59,7 +61,7 @@ namespace fft::core {
     ////////////////////////////////////////////////////////////
     void fft(Complex *x, uint32_t size) {
         unsigned int N = size, k = N, n;
-        double thetaT = 3.14159265358979323846264338328L / N;
+        double thetaT = PI / N;
         Complex phiT = Complex(cos(thetaT), -sin(thetaT)), T;
         while (k > 1) {
             n = k;
@@ -105,7 +107,7 @@ namespace fft::core {
 
 #pragma omp parallel for
         for (uint32_t i = 0; i < size; i++) {
-            ret[i] = Complex(0.5 * (1 - std::cos(2 * std::numbers::pi_v<double> * i / (size - 1))), 0.0);
+            ret[i] = Complex(0.5 * (1 - std::cos(2 * PI * i / (size - 1))), 0.0);
         }
 
         return ret;

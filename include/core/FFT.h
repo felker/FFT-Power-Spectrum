@@ -10,7 +10,6 @@
 #include <SFML/Audio.hpp>
 #include <memory>
 #include <omp.h>
-#include <numbers>
 #include <cmath>
 #include <valarray>
 #include <complex>

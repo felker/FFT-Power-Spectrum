@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 project(FFT-Spectrum)
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -O3 -g -march=native -fopenmp -std=c++20")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -O3 -g -march=native -fopenmp -std=c++2a -lm")
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_SOURCE_DIR}/cmake_modules/")
 
 find_package(SFML 2.5 REQUIRED audio graphics window system)

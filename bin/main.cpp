@@ -20,7 +20,12 @@
 #include <app/GUI.h>
 
 
-int main() {
+int main(int32_t argc, char ** argv) {
+    if(argc <= 1) {
+        std::cerr << "Please specify a WAV file with '" << argv[0] << " [file.wav]'." << std::endl;
+        std::exit(1);
+    }
+
     // Creating window
     sf::RenderWindow window({1900, 1000}, "FFT");
 
@@ -30,7 +35,7 @@ int main() {
 
     fft::app::GUI gui(&window, segment_size);
 
-    fft::app::Controller controller(&gui, segment_size, "../../data/elise.wav");
+    fft::app::Controller controller(&gui, segment_size, argv[1]);
 
     controller.start();
 }

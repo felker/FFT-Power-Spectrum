@@ -15,7 +15,7 @@ namespace fft::app {
 
         fft::utils::TimeIt loading_sound("Loading sound from buffer");
         if (!this->sound_buffer.loadFromFile(file_name)) {
-            std::cerr << "Can not load file elise.wav. Please place the file in the correct path." << std::endl;
+            std::cerr << "Can not load file" << file_name << ". Please place the file in the correct path." << std::endl;
             std::exit(1);
         }
 
