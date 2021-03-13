@@ -54,15 +54,13 @@ namespace fft::app {
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     void Controller::start() {
-
+        this->sound.play();
         while (this->gui->is_open()) {
             while (this->gui->poll_event(event)) {
                 switch (this->event.type) {
                     case sf::Event::Closed:
                         this->gui->close();
                         break;
-                    case sf::Event::MouseButtonPressed:
-                        this->sound.play();
                     default:
                         break;
                 }
