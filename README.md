@@ -9,7 +9,7 @@ A high-quality demonstration of the application can be found at
 This program utilized discrete Fourier transformation to obtain the time-frequency-domain of a audio file. The result
 can be explained as following:
 
-- The top part of the program, we can see the raw amplitude_lines-time data as it can be found in any `WAV` file. While this is the
+- The top part of the program, we can see the raw time-amplitude data as it can be found in any `WAV` file. While this is the
   intuitive way for how we think of  data, it is not very informative.
 - The bottom part of the program is the output of the algorithm, combined with some waterfall effect. This parts display the
   heart of DFT or Fourier Transformation in general, which allows us to decompose the data into their frequencies and how much each
@@ -17,7 +17,7 @@ can be explained as following:
   from signal processing, machine learning and pattern recognition to wrangle data in a more effective way.
 
 This program is on the other hand just a nice artistic demonstration of the algorithm, notice how much better we can see which piano key
-is being pressed, which is almost impossible to achieve with time-amplitude_lines.
+is being pressed, which is almost impossible to achieve with time-amplitude.
 
 ### Build and run it yourself (C++11 / SFML 2.5)
 
