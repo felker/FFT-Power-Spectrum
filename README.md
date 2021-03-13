@@ -24,7 +24,7 @@ is being pressed, which is almost impossible to achieve with time-amplitude.
 Install the dependencies
 
 ```
-sudo apt-get install libcppunit-dev libsfml-dev
+sudo apt-get install libsfml-dev
 ```
 
 Clone the repository
