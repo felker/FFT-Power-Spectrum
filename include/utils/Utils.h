@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cmath>
-#include <fmt/core.h>
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
 #include <random>
