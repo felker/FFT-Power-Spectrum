@@ -5,7 +5,11 @@ set(CMAKE_CXX_STANDARD 11)
 #set(CMAKE_CXX_FLAGS "-Wall -Wextra -O3 -g -march=native -fopenmp -std=c++11 -lm")
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -O3 -g -march=native -std=c++11 -lm")
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_SOURCE_DIR}/cmake_modules/")
-
+if(APPLE)
+  set(CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS} -undefined dynamic_lookup")
+  set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS} -undefined dynamic_lookup")  
+endif(APPLE)
+  
 find_package(SFML 2.5 REQUIRED audio graphics window system)
 
 set(LIBRARY sfml-audio sfml-graphics sfml-window sfml-system)
